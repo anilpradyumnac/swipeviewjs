@@ -6,81 +6,113 @@
 		<style type="text/css">
 				
 				#Toucharea{
-					
 					height: 400px;
-					margin: auto;
-					padding: 0px;
-					
-					
+					border:2px solid red;
+					padding: 0px;	
+					position:absolute;
 				}
 				#Toucharea1 {
-					height: 100%;
-		    	width: 100%;
-		    	border: 1px solid black;
-		    	background-color:grey;
-					float:left;
+					background-color:grey;
 				}
 				#Toucharea2{
-					height:100%;
-					width:100%;
-					float:left;
-					border:1px solid black;
-					background-color:green;
-					
+					background-color:green;	
 				}
 				#Toucharea3{
-					height:100%;
-					width:100%;
-					float:left;
-					border:1px solid black;
 					background-color:yellow;
-					visibility:visible;
 				}
 				#Toucharea4{
-					height:100%;
-					width:100%;
-					float:left;
-					border:1px solid black;
 					background-color:red;
+				}
+				#Toucharea5{
+					background-color:blue;
+				}
+				.ta{
+					float:left;
+					width: 1280px;
+					height:100%;
+				}
+				@media all and (min-width:768px){
+					.ta{
+						width:1280px;
+						float:left;
+						height:100%;
+					}
+					
 				}
 		</style>
 		
 		<script type="text/javascript">
 		function ontouch(){
 			console.log("started");
+			
+			var startX,startY,distX,starttime;
+			
+			console.log(document.documentElement.clientWidth);
 			var el = document.getElementById('Toucharea');
-			var divWidth = el.offsetWidth;
-			console.log(el.offsetHeight);
-			console.log(el.tagName);
-			var divcount = el.getElementsByTagName('div');
+			var divWidth = el.clientWidth;
+			var divcount = el.getElementsByTagName('div').length;
 			console.log(divcount);
+			
 			el.style.width = divWidth * divcount + 'px';
 			console.log(el.style.width);
+			
+			el.addEventListener('touchstart',function(e){
+				console.log('Touched');
+				var touchobj = e.changedTouches[0],
+				dir = 'none',
+				dist = 0,
+				startX = touchobj.pageX,
+				
+				starttime = new Date().getTime();
+				printIn(startX+'*'+starttime );
+				e.preventDefault();
+			},false);
+			el.addEventListener('touchmove',function(e){
+				console.log('Touch Moved')
+				var time_swiped = new Date().getTime()-starttime;
+				printIn(time_swiped/100);
+				printIn(startX);
+				var touchobj = e.changedTouches[0];
+				
+
+				
+				
+				e.preventDefault();
+			},false);
+			
 		}
 		
+		function printIn(e){
+			document.getElementById("print").innerHTML = e;
+		}
 		</script>
 	</head>
 	<body>
-		
+		<p id="print">Hello</p>
 		<div id="Toucharea">
 			
 			
-			<div id="Toucharea1">
+			<div class="ta" id="Toucharea1">
 			 First View
 			</div>
-			<div id="Toucharea2">
+			<div class="ta" id="Toucharea2">
 				Second View
 			</div>
-			<div id="Toucharea3">
+			<div class="ta" id="Toucharea3">
 				Third View
 			</div>
-			<!--div id="Toucharea4">
+			<div class="ta" id="Toucharea4">
 				Fourthview
-			</div-->
+			</div>
+			<div class="ta" id="Toucharea5">
+				FifthView
+			</div>
 		</div>
 		
+	
 		<script type="text/javascript">
 		ontouch();
+		
 		</script>
 	</body>
 </html>
