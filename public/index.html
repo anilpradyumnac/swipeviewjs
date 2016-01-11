@@ -5,87 +5,160 @@
 		
 		<style type="text/css">
 				
-				#Toucharea{
-					height: 400px;
-					border:2px solid red;
-					padding: 0px;	
-					position:absolute;
-				}
-				#Toucharea1 {
-					background-color:grey;
-				}
-				#Toucharea2{
-					background-color:green;	
-				}
-				#Toucharea3{
-					background-color:yellow;
-				}
-				#Toucharea4{
-					background-color:red;
-				}
-				#Toucharea5{
-					background-color:blue;
-				}
-				.ta{
-					float:left;
-					width: 1280px;
-					height:100%;
-				}
-				@media all and (min-width:768px){
-					.ta{
-						width:1280px;
-						float:left;
-						height:100%;
-					}
-					
-				}
+						#Toucharea{
+							height: 400px;
+							border:2px solid red;
+							padding: 0px;	
+							
+							position:absolute;
+						}
+						#Toucharea1 {
+							background-color:grey;
+
+							
+						}
+						#Toucharea2{
+							background-color:green;
+
+								
+						}
+						#Toucharea3{
+							background-color:yellow;
+
+							
+						}
+						#Toucharea4{
+							background-color:red;
+
+							
+						}
+						#Toucharea5{
+							background-color:blue;
+						}
+						.ta{
+							float:left;
+							width: 1280px;
+							height:100%;
+						}
+				
+						@media screen and (max-width:768px) {
+							#Toucharea {
+								
+								float:left;
+							}
+							#Toucharea1 {
+								width:100%;
+								float:left;
+							
+							}
+							#Toucharea2{
+								background-color:green;
+
+								width:100%;
+								float:left;
+								
+							}
+							#Toucharea3{
+								background-color:yellow;
+
+								width:100%;
+								float:left;
+							
+							}
+							#Toucharea4{
+								background-color:red;
+
+								width:100%;
+								float:left;
+							
+							}
+							#Toucharea5{
+								background-color:blue;
+
+								width:100%;
+								float:left;
+							}
+							.ta {
+								float:left;
+								width:100%;
+							}
+						}
+			
 		</style>
 		
 		<script type="text/javascript">
-		function ontouch(){
-			console.log("started");
+		function detectswipe(el,func) {
+		      swipe_det = new Object();
+		      swipe_det.startX = 0;
+		      swipe_det.endX = 0;
+		      
+		      var min_x = 20;  
+		      var max_x = 40;  
+		       
+		      var direction = "";
+					var time = new Date();
+					var starttime = 0;
+					var endtime = 0;
+					var speed,dt;
+					console.log("Current time: "+time.valueOf());
+					var element = document.getElementById('Toucharea');
+					var divWidth = element.clientWidth;
+					var divcount = element.getElementsByTagName('div').length;
+					console.log(divcount);
 			
-			var startX,startY,distX,starttime;
-			
-			console.log(document.documentElement.clientWidth);
-			var el = document.getElementById('Toucharea');
-			var divWidth = el.clientWidth;
-			var divcount = el.getElementsByTagName('div').length;
-			console.log(divcount);
-			
-			el.style.width = divWidth * divcount + 'px';
-			console.log(el.style.width);
-			
-			el.addEventListener('touchstart',function(e){
-				console.log('Touched');
-				var touchobj = e.changedTouches[0],
-				dir = 'none',
-				dist = 0,
-				startX = touchobj.pageX,
-				
-				starttime = new Date().getTime();
-				printIn(startX+'*'+starttime );
-				e.preventDefault();
-			},false);
-			el.addEventListener('touchmove',function(e){
-				console.log('Touch Moved')
-				var time_swiped = new Date().getTime()-starttime;
-				printIn(time_swiped/100);
-				printIn(startX);
-				var touchobj = e.changedTouches[0];
-				
+					element.style.width = divWidth * divcount + 'px';
+		      ele = document.getElementById(el);
+					
+		      ele.addEventListener('touchstart',function(e){
+						console.log("touchstarted")
+						starttime = new Date().valueOf();
+						console.log("Time when touch event started:"+starttime.valueOf());
+		        var t = e.touches[0];
+		        swipe_det.startX = t.screenX; 
+		        
+						console.log("The x coordinate when touchevnt started: "+swipe_det.startX);
+						
+		      },false);
+		      ele.addEventListener('touchmove',function(e){
+		        e.preventDefault();
+		        var t = e.touches[0];
+		        swipe_det.endX = t.screenX; 
+		           
+		      },false);
+		      ele.addEventListener('touchend',function(e){
+		        //horizontal detection
+						console.log("X Coordinate at touch end:"+swipe_det.endX);
+						endtime = new Date().valueOf();
+						console.log("the time at touchend: "+endtime);
+						dt = endtime - starttime;
+						var ds = swipe_det.endX - swipe_det.startX;
+						speed = ds / dt;
+						console.log("the speed of swiping is: "+speed);
+						console.log("the time taken to traverse: "+dt); 
+		        if ((swipe_det.endX - min_x > swipe_det.startX) || (swipe_det.endX + min_x < swipe_det.startX)) {
+		          if(swipe_det.endX > swipe_det.startX) {
+								direction = "r";
+								
+							}
+		          else {
+								direction = "l";
+								
+							}
+		        }
+		       
+    
+		        if (direction != "") {
+		          if(typeof func == 'function') 
+								func(el,direction);
+		        }
+		        direction = "";
+		      },false);  
+		    }
 
-				
-				
-				e.preventDefault();
-			},false);
-			
-		}
-		
-		function printIn(e){
-			document.getElementById("print").innerHTML = e;
-		}
-		</script>
+		    function myfunction(el,d) {
+		      alert("you swiped on element with id '"+el+"' to "+d+" direction");
+		    }
+				</script>
 	</head>
 	<body>
 		<p id="print">Hello</p>
@@ -111,7 +184,7 @@
 		
 	
 		<script type="text/javascript">
-		ontouch();
+		detectswipe('Toucharea',myfunction);
 		
 		</script>
 	</body>
