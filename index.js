@@ -1,4 +1,5 @@
-var express = require('express'),
+'use strict'
+let express = require('express'),
 		app = express(),
 http = require('http').Server(app);
 app.use(express.static('public'));
