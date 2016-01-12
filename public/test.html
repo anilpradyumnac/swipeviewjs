@@ -3,25 +3,101 @@
     <meta charset="utf-8">
     <style>
         #container {
-            border: 1px solid #ccc; height: 100px; overflow: scroll; width: 100px;
+					border:2px solid red;
+					padding: 0px;	
+					overflow:auto;
+					position:absolute;
+					
+					top:300px;
+					
         }
-        #content {
-            background-color: #ccc; width: 250px;
+        #box {
+            border: 1px solid #ccc; 
+						height: 100px ; 
+						width: 100px;
+						background-color: #ccc; 
+						margin:auto;
         }
+        
+            
+        
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {   
-            var button = document.getElementById('slide');
-            button.onclick = function () {
-                document.getElementById('container').scrollLeft += 20;
-            };
-        }, false);
-    </script>
+    <script type="text/javascript">
+		function detectswipe(el,func){
+      var swipe_det = {};
+      swipe_det.startX = 0;
+     	swipe_det.endX = 0;
+      
+			var ele = document.getElementById(el);
+			
+			ele.addEventListener('touchstart',function(e){
+				console.log("touchstarted");
+				starttime = new Date().valueOf();
+				console.log("Time when touch event started:"+starttime.valueOf());
+        var t = e.touches[0];
+        swipe_det.startX = t.screenX; 
+        
+				console.log("The x coordinate when touchevnt started: "+swipe_det.startX);
+				
+      },false);
+			
+      ele.addEventListener('touchmove',function(e){
+        e.preventDefault();
+        var t = e.touches[0];
+        swipe_det.endX = t.screenX; 
+				console.log("the end coordinates are:"+swipe_det.endX);
+				var distance_travelled = (swipe_det.endX - swipe_det.startX);
+				console.log("Distance swiped:"+distance_travelled);
+				ele.style.left = distance_travelled +"px";   
+      },false);
+      ele.addEventListener('touchend',function(e){
+        //horizontal detection
+				console.log("X Coordinate at touch end:"+swipe_det.endX);
+				endtime = new Date().valueOf();
+				console.log("the time at touchend: "+endtime);
+				dt = (endtime - starttime)/1000;
+				var ds = swipe_det.endX - swipe_det.startX;
+				speed = ds / dt;
+				console.log("the speed of swiping is: "+speed+" coordinates/sec");
+				console.log("the time taken to traverse: "+dt); 
+				console.log(ele.style.width);
+        
+        if(swipe_det.endX > swipe_det.startX) {
+						direction = "r";
+						
+					}
+          else {
+						direction = "l";
+						
+						
+					}
+        
+       	console.log(swipe_det);
+				
+			
+        
+				if (direction !== "") {
+          if(typeof func == 'function') 
+						func(el,direction);
+        }
+        direction = "";
+      },false);
+		}
+    function myfunction(el,d) {
+      
+			alert("you swiped on element with id '"+el+"' to "+d+" direction");
+			
+    }    
+		</script>
 </head>
 <body>
     <div id="container">
-        <div id="content">Lorem ipsum dolor sit amet.</div>
-    </div>
-    <button id="slide" type="button">Slide</button>
+			<div id="box">
+				
+			</div>
+		<div>
+    <script type="text/javascript">
+    	detectswipe('container',myfunction);
+    </script>    
 </body>
 </html>
