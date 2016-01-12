@@ -36,7 +36,7 @@ function detectswipe(el,func){
 		console.log("the speed of swiping is: "+speed+" coordinates/sec");
 		console.log("the time taken to traverse: "+dt); 
 		console.log(ele.style.width);
-    
+    ele.style.left = distance_travelled +"px";
     if(swipe_det.endX > swipe_det.startX) {
 				direction = "r";
 				
