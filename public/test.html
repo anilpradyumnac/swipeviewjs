@@ -29,6 +29,7 @@
      	swipe_det.endX = 0;
       
 			var ele = document.getElementById(el);
+			var width = ele.style.width;
 			
 			ele.addEventListener('touchstart',function(e){
 				console.log("touchstarted");
@@ -40,6 +41,7 @@
 				console.log("The x coordinate when touchevnt started: "+swipe_det.startX);
 				
       },false);
+			console.log(width);
 			
       ele.addEventListener('touchmove',function(e){
         e.preventDefault();
@@ -48,7 +50,7 @@
 				console.log("the end coordinates are:"+swipe_det.endX);
 				var distance_travelled = (swipe_det.endX - swipe_det.startX);
 				console.log("Distance swiped:"+distance_travelled);
-				ele.style.left = distance_travelled +"px";   
+				ele.style.left = (distance_travelled +(swipe_det.startX))+"px";   
       },false);
       ele.addEventListener('touchend',function(e){
         //horizontal detection
