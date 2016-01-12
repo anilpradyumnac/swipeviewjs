@@ -23,7 +23,7 @@ function detectswipe(el,func){
 		console.log("the end coordinates are:"+swipe_det.endX);
 		var distance_travelled = (swipe_det.endX - swipe_det.startX);
 		console.log("Distance swiped:"+distance_travelled);
-		ele.style.left = (distance_travelled + (2*swipe_det.startX)) +"px";   
+		ele.style.left = distance_travelled +"px";   
   },false);
   ele.addEventListener('touchend',function(e){
     //horizontal detection
@@ -57,4 +57,8 @@ function detectswipe(el,func){
     }
     direction = "";
   },false);
+}
+function myfunction(el,d) {
+  
+	alert("you swiped on element with id '"+el+"' to "+d+" direction");
 }
