@@ -4,7 +4,7 @@
 					padding: 0px;	
 					overflow:auto;
 					position:absolute;
-					width:104px;
+					
 					
 					
         }
@@ -27,12 +27,16 @@
 		
 		function ontouch(){
 			var element = document.getElementById('container');
+			var StartX;
+			element.addEventListener('touchstart',function(e){
+				var StartX = e.targetTouches[0].pageX;
+				console.log("StartingX: "+StartX);
+			},false);
       element.addEventListener('touchmove',function(e){
-      	e.preventDefault();
-				var t = e.touches[0].screenX;
-				console.log("width of the box:"+element.style.width);
-				element.style.left = t;
-				
+				e.preventDefault();
+				var CurX = e.targetTouches[0].pageX;
+				console.log(CurX);
+				element.style.left = CurX;
       },false);
 		}
 		
@@ -53,7 +57,7 @@
 	     
 	    }
 	    element.style.left = cord_x;
-	   }
+		}
 			
 	</script>
 <body onmousemove="move(event)">
