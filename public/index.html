@@ -1,124 +1,69 @@
-<html>
-	<head>
-		<meta name="name" content="content" />
-		<title>::SwipeJS-Sandbox::</title>
+    <style>
+        #container {
+					border:2px solid red;
+					padding: 0px;	
+					overflow:auto;
+					position:absolute;
+					width:104px;
+					
+					
+        }
+        .box {
+            border: 1px solid #ccc; 
+						height: 100px ; 
+						width: 100px;
+						margin:auto;
+						float:left;
+        }
+        #box1{
+        	background-color: #ccc; 
+        }
+        
+        
+    </style>
+	<script type="text/javascript">
+	  
+		var element = document.getElementById('container');
 		
-		<style type="text/css">
+		function ontouch(){
+			var element = document.getElementById('container');
+      element.addEventListener('touchmove',function(e){
+      	e.preventDefault();
+				var t = e.touches[0].screenX;
+				console.log("width of the box:"+element.style.width);
+				element.style.left = t;
 				
-						#Toucharea{
-							height: 400px;
-							border:2px solid red;
-							padding: 0px;	
-							overflow:auto;
-							position:absolute;
-						}
-						#Toucharea1 {
-							background-color:grey;
-
-							
-						}
-						#Toucharea2{
-							background-color:green;
-
-								
-						}
-						#Toucharea3{
-							background-color:yellow;
-
-							
-						}
-						#Toucharea4{
-							background-color:red;
-
-							
-						}
-						#Toucharea5{
-							background-color:blue;
-						}
-						.ta{
-							float:left;
-							width: 1280px;
-							height:100%;
-						}
+      },false);
+		}
+		
+		function move(e){
+			
+	    var cord_x = 0;
+	    
+			var element = document.getElementById('container');
+	    if (!e) {
+	     var e = window.event;
+	    }
+	    if (e.pageX){
+	     cord_x = e.pageX;
+	     
+	    }
+	    else if (e.clientX){
+	     cord_x = e.clientX;
+	     
+	    }
+	    element.style.left = cord_x;
+	   }
+			
+	</script>
+<body onmousemove="move(event)">
+    <div id="container">
+			<div class="box" id="box1">
 				
-						@media screen and (max-width:768px) {
-							#Toucharea {
-								
-								float:left;
-							}
-							#Toucharea1 {
-								width:100%;
-								float:left;
-							
-							}
-							#Toucharea2{
-								background-color:green;
-
-								width:100%;
-								float:left;
-								
-							}
-							#Toucharea3{
-								background-color:yellow;
-
-								width:100%;
-								float:left;
-							
-							}
-							#Toucharea4{
-								background-color:red;
-
-								width:100%;
-								float:left;
-							
-							}
-							#Toucharea5{
-								background-color:blue;
-
-								width:100%;
-								float:left;
-							}
-							.ta {
-								float:left;
-								width:100%;
-							}
-						}
+			</div>
 			
-		</style>
-		
-		<script type="text/javascript" src="detectswipe.js">
-		
-		    function myfunction(el,d) {
-		      alert("you swiped on element with id '"+el+"' to "+d+" direction");
-		    }
-				</script>
-	</head>
-	<body>
-		<p id="print">Hello</p>
-		<div id="Toucharea">
-			
-			
-			<div class="ta" id="Toucharea1">
-			 First View
-			</div>
-			<div class="ta" id="Toucharea2">
-				Second View
-			</div>
-			<div class="ta" id="Toucharea3">
-				Third View
-			</div>
-			<div class="ta" id="Toucharea4">
-				Fourthview
-			</div>
-			<div class="ta" id="Toucharea5">
-				FifthView
-			</div>
-		</div>
-		
-	
-		<script type="text/javascript">
-		detectswipe('Toucharea',myfunction);
-		
-		</script>
-	</body>
-</html>
+		<div>
+    <script type="text/javascript">
+    	ontouch();
+    </script>
+</body>
